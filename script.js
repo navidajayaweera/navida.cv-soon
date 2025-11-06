@@ -1,3 +1,70 @@
+// Animated Theme Toggle with View Transition API
+class AnimatedThemeToggle {
+    constructor() {
+        this.duration = 400;
+        this.init();
+    }
+    
+    init() {
+        document.addEventListener('click', (e) => this.toggleTheme(e));
+    }
+    
+    async toggleTheme(event) {
+        // Get click coordinates
+        const x = event.clientX;
+        const y = event.clientY;
+        
+        // Determine current and new theme
+        const isDark = document.body.classList.contains('dark');
+        const newTheme = isDark ? 'light' : 'dark';
+        
+        // Check if browser supports View Transition API
+        if (!document.startViewTransition) {
+            // Fallback for browsers without View Transition API
+            this.toggleThemeWithoutAnimation(newTheme);
+            return;
+        }
+        
+        // Start view transition
+        const transition = document.startViewTransition(() => {
+            this.toggleThemeWithoutAnimation(newTheme);
+        });
+        
+        // Wait for transition to be ready
+        await transition.ready;
+        
+        // Calculate the radius for the circle animation
+        const maxRadius = Math.hypot(
+            Math.max(x, window.innerWidth - x),
+            Math.max(y, window.innerHeight - y)
+        );
+        
+        // Animate the expanding circle from click point
+        document.documentElement.animate(
+            {
+                clipPath: [
+                    `circle(0px at ${x}px ${y}px)`,
+                    `circle(${maxRadius}px at ${x}px ${y}px)`,
+                ],
+            },
+            {
+                duration: this.duration,
+                easing: 'ease-in-out',
+                pseudoElement: '::view-transition-new(root)',
+            }
+        );
+    }
+    
+    toggleThemeWithoutAnimation(theme) {
+        document.body.classList.remove('light', 'dark');
+        document.body.classList.add(theme);
+        localStorage.setItem('theme', theme);
+    }
+}
+
+// Initialize animated theme toggle
+let animatedThemeToggle;
+
 // Smooth Cursor Effect
 class SmoothCursor {
     constructor() {
@@ -204,15 +271,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     // Initialize cursor
     smoothCursor = new SmoothCursor();
-});
-
-// Optional: Add keyboard shortcut to toggle theme (Ctrl/Cmd + Shift + T)
-document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'T') {
-        const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        setTheme(newTheme);
-    }
+    // Initialize animated theme toggle
+    animatedThemeToggle = new AnimatedThemeToggle();
 });
 
 // Prevent scrolling entirely
