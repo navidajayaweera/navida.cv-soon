@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hide scrollbars completely */
+::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Light theme (default) */
+body.light {
+    background-color: #ffffff;
+    color: #0B0B0B;
+}
+
+/* Dark theme */
+body.dark {
+    background-color: #0B0B0B;
+    color: #ffffff;
+}
+
+.main-text {
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    text-align: center;
+    margin: auto;
+}
+
+.bottom-text {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(0.875rem, 1vw, 1.125rem);
+    font-weight: 200;
+    text-align: center;
+    opacity: 0.7;
+    letter-spacing: 0.01em;
+    word-spacing: 2em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-text {
+        font-size: clamp(2.5rem, 12vw, 6rem);
+    }
+    
+    .bottom-text {
+        bottom: 1.5rem;
+        font-size: clamp(0.75rem, 3vw, 1rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .main-text {
+        font-size: clamp(2rem, 15vw, 4rem);
+    }
+    
+    .bottom-text {
+        bottom: 1rem;
+        font-size: clamp(0.7rem, 3.5vw, 0.9rem);
+    }
+}
+
+/* Ensure content fits viewport */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    position: relative;
+    padding: 1rem;
+}
+
+/* Custom Cursor Styles */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10000;
+    will-change: transform;
+    transform-origin: center center;
+}
+
+.cursor-arrow,
+.cursor-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cursor-arrow {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.35);
+}
+
+.cursor-dot {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+}
+
+.custom-cursor.hovering .cursor-arrow {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.175);
+}
+
+.custom-cursor.hovering .cursor-dot {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Theme-aware cursor colors */
+body.light .cursor-fill {
+    fill: #000000;
+}
+
+body.light .cursor-stroke {
+    stroke: #ffffff;
+}
+
+body.dark .cursor-fill {
+    fill: #ffffff;
+}
+
+body.dark .cursor-stroke {
+    stroke: #0B0B0B;
+}
+
+body.light .cursor-dot-inner,
+body.light .cursor-dot-outer {
+    fill: #000000;
+}
+
+body.dark .cursor-dot-inner,
+body.dark .cursor-dot-outer {
+    fill: #ffffff;
+}
+
+/* Hide default cursor */
+body, a, button, input, textarea, select {
+    cursor: none !important;
+}
+
+/* Make link interactive */
+.bottom-text a {
+    cursor: none !important;
+    transition: opacity 0.3s ease;
+}
+
+.bottom-text a:hover {
+    opacity: 1 !important;
+}
