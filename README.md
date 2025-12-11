@@ -1,4 +1,3 @@
-soon
+Soon
 
-dec-18
-navida.is-a.dev
+navida.cv
