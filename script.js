@@ -1,3 +1,31 @@
+// Click Counter for Secret Text
+class SecretTextRevealer {
+    constructor() {
+        this.clickCount = 0;
+        this.threshold = 4;
+        this.init();
+    }
+    
+    init() {
+        document.addEventListener('click', () => this.handleClick());
+    }
+    
+    handleClick() {
+        this.clickCount++;
+        
+        if (this.clickCount === this.threshold) {
+            this.revealSecretText();
+        }
+    }
+    
+    revealSecretText() {
+        const secretText = document.getElementById('secretText');
+        if (secretText) {
+            secretText.classList.add('visible');
+        }
+    }
+}
+
 // Animated Theme Toggle with View Transition API
 class AnimatedThemeToggle {
     constructor() {
@@ -59,6 +87,15 @@ class AnimatedThemeToggle {
         document.body.classList.remove('light', 'dark');
         document.body.classList.add(theme);
         localStorage.setItem('theme', theme);
+        
+        // Update favicon color based on theme
+        this.updateFavicon(theme);
+    }
+    
+    updateFavicon(theme) {
+        const favicon = document.getElementById('favicon');
+        const color = theme === 'dark' ? '%23000000' : '%23ffffff';
+        favicon.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='${color}'/></svg>`;
     }
 }
 
@@ -273,6 +310,8 @@ document.addEventListener('DOMContentLoaded', () => {
     smoothCursor = new SmoothCursor();
     // Initialize animated theme toggle
     animatedThemeToggle = new AnimatedThemeToggle();
+    // Initialize secret text revealer
+    secretTextRevealer = new SecretTextRevealer();
 });
 
 // Prevent scrolling entirely

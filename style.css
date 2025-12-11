@@ -1,7 +1,14 @@
+/* ============================================
+   GLOBAL STYLES & RESET
+   ============================================ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 html, body {
@@ -11,11 +18,26 @@ html, body {
     font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* View Transition API support */
+/* ============================================
+   SCROLLBAR HIDING
+   ============================================ */
+::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ============================================
+   VIEW TRANSITION API SUPPORT
+   ============================================ */
 ::view-transition-old(root),
 ::view-transition-new(root) {
     animation: none;
     mix-blend-mode: normal;
+    cursor: none !important;
 }
 
 ::view-transition-old(root) {
@@ -26,16 +48,9 @@ html, body {
     z-index: 9999;
 }
 
-/* Hide scrollbars completely */
-::-webkit-scrollbar {
-    display: none;
-}
-
-html {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
+/* ============================================
+   BODY & THEME SETUP
+   ============================================ */
 body {
     display: flex;
     flex-direction: column;
@@ -44,75 +59,140 @@ body {
     position: relative;
 }
 
-/* Light theme (default) */
 body.light {
     background-color: #ffffff;
     color: #0B0B0B;
 }
 
-/* Dark theme */
 body.dark {
     background-color: #0B0B0B;
     color: #ffffff;
 }
 
-.main-text {
-    font-size: clamp(2rem, 4vw, 4rem);
-    font-weight: 300;
-    letter-spacing: 0.4em;
-    text-align: center;
-    margin: auto;
-}
-
-.bottom-text {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: clamp(0.875rem, 1vw, 1.125rem);
-    font-weight: 200;
-    text-align: center;
-    opacity: 0.7;
-    letter-spacing: 0.01em;
-    word-spacing: 2em;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .main-text {
-        font-size: clamp(2.5rem, 12vw, 6rem);
-    }
-    
-    .bottom-text {
-        bottom: 1.5rem;
-        font-size: clamp(0.75rem, 3vw, 1rem);
-    }
-}
-
-@media (max-width: 480px) {
-    .main-text {
-        font-size: clamp(2rem, 15vw, 4rem);
-    }
-    
-    .bottom-text {
-        bottom: 1rem;
-        font-size: clamp(0.7rem, 3.5vw, 0.9rem);
-    }
-}
-
-/* Ensure content fits viewport */
+/* ============================================
+   CONTAINER & LAYOUT
+   ============================================ */
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     min-height: 100vh;
     width: 100vw;
     position: relative;
     padding: 1rem;
+    padding-top: 25vh;
 }
 
-/* Custom Cursor Styles */
+/* ============================================
+   MAIN CONTENT TEXT
+   ============================================ */
+.main-text {
+    font-size: clamp(4rem, 8vw, 6rem);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-align: center;
+    margin: auto;
+}
+
+/* ============================================
+   SECRET TEXT (HIDDEN UNTIL 4 CLICKS)
+   ============================================ */
+.secret-text {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    font-weight: 200;
+    text-align: center;
+    letter-spacing: 0.01em;
+    position: relative;
+    margin-top: -7.5rem;
+    margin-bottom: auto;
+}
+
+.secret-text.visible {
+    opacity: 0.8;
+}
+
+.secret-text a {
+    cursor: none !important;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+body.light .secret-text a {
+    color: #0B0B0B;
+}
+
+body.dark .secret-text a {
+    color: #ffffff;
+}
+
+.secret-text a:hover {
+    opacity: 0.6;
+}
+
+/* ============================================
+   BOTTOM TEXT (FOOTER)
+   ============================================ */
+.bottom-text {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    font-weight: 200;
+    text-align: center;
+    opacity: 0.8;
+    letter-spacing: 0.01em;
+    word-spacing: 2em;
+    z-index: 5;
+    margin-top: auto;
+    padding-bottom: 2.5rem;
+}
+
+.bottom-text a {
+    cursor: none !important;
+    transition: opacity 0.3s ease;
+}
+
+.bottom-text a:hover {
+    opacity: 1 !important;
+}
+
+/* ============================================
+   SOCIAL LINKS GRID
+   ============================================ */
+.social-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem 2rem;
+    margin-top: 1rem;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+}
+
+.social-link {
+    font-size: 1rem;
+    font-weight: 200;
+    cursor: none !important;
+    transition: 0.3s ease;
+}
+
+body.light .social-link {
+    color: #0B0B0B;
+}
+
+body.dark .social-link {
+    color: #ffffff;
+}
+
+.social-link:hover {
+    opacity: 0.6;
+}
+
+/* ============================================
+   CUSTOM CURSOR STYLES
+   ============================================ */
 .custom-cursor {
     position: fixed;
     top: 0;
@@ -152,7 +232,7 @@ body.dark {
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* Theme-aware cursor colors */
+/* Cursor Color - Light Theme */
 body.light .cursor-fill {
     fill: #000000;
 }
@@ -161,6 +241,12 @@ body.light .cursor-stroke {
     stroke: #ffffff;
 }
 
+body.light .cursor-dot-inner,
+body.light .cursor-dot-outer {
+    fill: #000000;
+}
+
+/* Cursor Color - Dark Theme */
 body.dark .cursor-fill {
     fill: #ffffff;
 }
@@ -169,27 +255,70 @@ body.dark .cursor-stroke {
     stroke: #0B0B0B;
 }
 
-body.light .cursor-dot-inner,
-body.light .cursor-dot-outer {
-    fill: #000000;
-}
-
 body.dark .cursor-dot-inner,
 body.dark .cursor-dot-outer {
     fill: #ffffff;
 }
 
-/* Hide default cursor */
+/* Hide Default Cursor */
 body, a, button, input, textarea, select {
     cursor: none !important;
 }
 
-/* Make link interactive */
-.bottom-text a {
-    cursor: none !important;
-    transition: opacity 0.3s ease;
+/* ============================================
+   RESPONSIVE DESIGN - TABLET (768px)
+   ============================================ */
+@media (max-width: 768px) {
+    .container {
+        padding-top: 20vh;
+    }
+
+    .main-text {
+        font-size: clamp(2.5rem, 12vw, 6rem);
+    }
+
+    .secret-text {
+        font-size: clamp(0.75rem, 1.5vw, 1rem);
+        margin-top: -6rem;
+    }
+
+    .bottom-text {
+        font-size: clamp(0.75rem, 1.5vw, 1rem);
+        padding-bottom: 1.5rem;
+    }
+
+    .social-link {
+        font-size: 0.875rem;
+    }
 }
 
-.bottom-text a:hover {
-    opacity: 1 !important;
+/* ============================================
+   RESPONSIVE DESIGN - MOBILE (480px)
+   ============================================ */
+@media (max-width: 480px) {
+    .container {
+        padding-top: 15vh;
+    }
+
+    .main-text {
+        font-size: clamp(2rem, 15vw, 4rem);
+    }
+
+    .secret-text {
+        font-size: clamp(0.7rem, 2vw, 0.9rem);
+        margin-top: -5rem;
+    }
+
+    .bottom-text {
+        font-size: clamp(0.7rem, 2vw, 0.9rem);
+        padding-bottom: 1rem;
+    }
+
+    .social-link {
+        font-size: 0.75rem;
+    }
+
+    .social-links {
+        gap: 0.75rem 1.5rem;
+    }
 }
